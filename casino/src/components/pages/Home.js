@@ -7,7 +7,8 @@ class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            deck: []
+            deck: [],
+            playerHand: []
         }
     }
 
@@ -17,7 +18,9 @@ class Home extends React.Component {
 
     deal = () => {
         let card = this.state.deck.pop([Math.floor(Math.random() * this.state.deck.length)])
-        this.setState({ card: card, dealt: true })
+        console.log(card)
+        let newHand = this.state.playerHand.concat([card]);
+        this.setState({ playerHand: newHand, dealt: true })
     }
 
 
@@ -27,9 +30,13 @@ class Home extends React.Component {
         return (
             <div>
                 <h1>George's Casino</h1>
-                <button onClick={() => this.deal()}></button>
-                
-                {this.state.dealt ? <Card card={this.state.card} /> : <div></div>}
+                <button onClick={() => this.deal()}>Draw Card</button>
+                {this.state.dealt ?
+                    this.state.playerHand.map(card => {
+                        return <Card card={card} />
+                    })
+                     :
+                    <div></div>}
             </div>
         )
     }
